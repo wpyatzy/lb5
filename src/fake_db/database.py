@@ -15,6 +15,8 @@ class Database:
             }
         ]
 
+        self._id = len(self._users)
+
     def get_user_by_email(self, email: str):
         for user in self._users:
             if user['email'] == email:
@@ -22,9 +24,10 @@ class Database:
         return None
 
     def create_user(self, name: str, email: str):
+        self._id += 1
         self._users.append(
             {
-                'id': self._users[-1]['id'] + 1,
+                'id': self._id,
                 'name': name,
                 'email': email,
                 'activated': False
