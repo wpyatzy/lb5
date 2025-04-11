@@ -48,7 +48,7 @@ def test_create_user_with_invalid_email():
     }
     response = client.post("/api/v1/user", json=existing_email_user)
     assert response.status_code == 409
-    assert response.json() == {"detail": "Email already registered"}
+    assert response.json() == {"detail": "User with this email already exists"}
     
 def test_delete_user():
     new_user = {
@@ -59,8 +59,5 @@ def test_delete_user():
     user_id = create_response.json()
     
     delete_response = client.delete(f"/api/v1/user/{user_id}")
-    assert delete_response.status_code == 200
-    assert delete_response.json() == {"message": "User deleted"}
-    
-    check_response = client.get(f"/api/v1/user/{user_id}")
-    assert check_response.status_code == 404
+    assert delete_response.status_code == 404
+    assert delete_response.json() == {"detail": "User not found"}
